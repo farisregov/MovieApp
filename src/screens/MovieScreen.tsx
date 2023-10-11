@@ -193,6 +193,7 @@ const MovieScreen: React.FC = () => {
           }}>
           {item.title}
         </Text>
+
         <Text
           style={{
             color: "#A0AEC0",
@@ -202,6 +203,7 @@ const MovieScreen: React.FC = () => {
           }}>
           {movieDetails?.status} • {movieDetails?.release_date?.split("-")[0] || "N/A"} • {movieDetails?.runtime} min
         </Text>
+
         <View
           style={{
             flexDirection: "row",
@@ -239,7 +241,7 @@ const MovieScreen: React.FC = () => {
           <StarIcon size={15} color={"black"} fill={"black"} />
           <Text>{` ${movieDetails.vote_average ? movieDetails.vote_average?.toFixed(1) : "null"}`}</Text>
         </View>
-        r
+
         <Text
           style={{
             color: "#A0AEC0",
