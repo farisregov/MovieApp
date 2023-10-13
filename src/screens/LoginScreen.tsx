@@ -63,7 +63,7 @@ const LoginScreen = (navigation) => {
         secureTextEntry
         style={{ marginBottom: 10, padding: 10, borderWidth: 1, width: 200 }}
       />
-      <Button title="Login" onPress={handleLogin} /> 
+      <Button title="Login" onPress={handleLogin} />
     </View>
   );
 };
