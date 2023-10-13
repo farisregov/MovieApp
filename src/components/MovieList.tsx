@@ -9,6 +9,7 @@ const { width, height } = Dimensions.get("window");
 
 const MovieList: React.FC<MoviesProps> = ({ title, data, hideSeeAll }) => {
   const Movies = data?.results || data?.cast || [];
+  const imageStyle = title === "Trending" ? { width: width * 0.45, height: height * 0.4 } : { width: width * 0.33, height: height * 0.22 };
 
   const navigation: any = useNavigation();
 
@@ -33,19 +34,15 @@ const MovieList: React.FC<MoviesProps> = ({ title, data, hideSeeAll }) => {
         {Movies.map((item: Movie) => {
           const truncatedTitle = item.title.length > 14 ? item.title.slice(0, 14) + "..." : item.title;
           return (
-            <TouchableWithoutFeedback key={item.id} onPress={() => navigation.push("Movie", item)}>
+            <TouchableWithoutFeedback key={item.id} onPress={() => navigation.navigate("Movie", item)}>
               <View style={{ paddingVertical: 1, marginRight: 10 }}>
                 <Image
                   source={{
                     uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
                   }}
-                  style={{
-                    width: width * 0.33,
-                    height: height * 0.22,
-                    borderRadius: 10,
-                  }}
+                  style={[imageStyle, { borderRadius: 10 }]}
                 />
-                <Text style={{ color: "white", textAlign: "center" }}>{truncatedTitle}</Text>
+                <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>{truncatedTitle}</Text>
               </View>
             </TouchableWithoutFeedback>
           );

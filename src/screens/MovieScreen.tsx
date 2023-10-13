@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -14,7 +14,7 @@ import { apiKey } from "../constants/constant";
 import { Movie, MovieDetails, MoviesResponse, ReviewResponse } from "../utils/types";
 
 const { width, height } = Dimensions.get("window");
-const MovieScreen: React.FC = () => {
+const MovieScreen = ({ navigation }) => {
   const { params: item } = (useRoute() as { params: MovieDetails }) || {};
   const [loading, setLoading] = useState(true);
   const [isFavorite, toggleFavorite] = useState(false);
@@ -23,7 +23,7 @@ const MovieScreen: React.FC = () => {
 
   const [similarMovies, setSimilarMovies] = useState<MoviesResponse | null>(null);
   const [movieDetails, setMovieDetails] = useState<Movie | null>(null);
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const fetchMovieDetails = async () => {
     const options = {

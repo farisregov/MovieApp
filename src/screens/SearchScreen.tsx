@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { debounce } from "lodash";
 import React, { useCallback, useState } from "react";
 import { Dimensions, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
@@ -11,8 +10,8 @@ import { Movie, MoviesResponse } from "../utils/types";
 
 const { height, width } = Dimensions.get("window");
 
-const SearchScreen: React.FC = () => {
-  const navigation: any = useNavigation();
+const SearchScreen = ({ navigation }) => {
+  // const navigation: any = useNavigation();
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<Movie[] | null>(null);
   const [search, setSearch] = useState<MoviesResponse | null>(null);

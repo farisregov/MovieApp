@@ -25,7 +25,7 @@ const Cast: React.FC<MovieCastProps> = ({ cast, navigation }) => {
               <TouchableOpacity
                 key={person.id}
                 style={{ marginRight: 4, alignItems: "center" }}
-                onPress={() => navigation.push("Person", person)}>
+                onPress={() => navigation.navigate("Person", person)}>
                 <View
                   style={{
                     overflow: "hidden",

@@ -1,22 +1,20 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Platform, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
 
 import Loading from "../components/loading";
 import MovieList from "../components/MovieList";
-import TrendingMovies from "../components/trendingMovies";
 import { apiKey } from "../constants/constant";
 import { MoviesResponse } from "../utils/types";
 
 const ios = Platform.OS === "ios";
 
-const HomeScreen: React.FC = () => {
+const HomeScreen = ({ navigation }) => {
   const [trending, setTrending] = useState<MoviesResponse | null>(null); // Use the correct type
   const [loading, setLoading] = useState<boolean>(true);
   const [upcoming, setUpcoming] = useState<MoviesResponse | null>(null); // Use the correct type
   const [topRated, setTopRated] = useState<MoviesResponse | null>(null); // Use the correct type
-  const navigation: any = useNavigation();
+  // const navigation: any = useNavigation();
 
   const handleSetData = async () => {
     const options = {
@@ -104,7 +102,7 @@ const HomeScreen: React.FC = () => {
           {loading ? (
             <Text>Loading...</Text>
           ) : (
-            trending && <TrendingMovies data={trending} /> // Pass the entire trending object
+            trending && <MovieList title="Trending" data={trending} /> // Pass the entire trending object
           )}
           {/* <Text style={{ color: "white" }}>{item1.lo}</Text>
           <Text style={{ color: "white" }}>{lo}</Text>

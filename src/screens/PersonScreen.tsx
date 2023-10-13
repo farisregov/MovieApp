@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -11,9 +11,9 @@ import { Cast, MoviesResponse } from "../utils/types";
 
 const { width, height } = Dimensions.get("window");
 
-const PersonScreen = () => {
+const PersonScreen = ({ navigation }) => {
   const { params: item } = (useRoute() as { params: Cast }) || {};
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const [isFavorite, toggleFavorite] = useState(false);
   const [loading, setLoading] = useState(false);
   const [person, setPerson] = useState<Cast | null>(null);

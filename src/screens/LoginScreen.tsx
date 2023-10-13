@@ -3,7 +3,7 @@ import { Button, TextInput, View } from "react-native";
 
 import { apiKey } from "../constants/constant";
 
-const LoginScreen = (navigation) => {
+const LoginScreen = ({ navigation }) => {
   // const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -38,14 +38,18 @@ const LoginScreen = (navigation) => {
       if (validateTokenResponse.ok) {
         const validateTokenData = await validateTokenResponse.json();
         console.log("Authentication successful:", validateTokenData);
-        navigation.navigate("Home");
+        navigation.navigate("Dashboard");
       } else {
         console.error("Authentication failed", validateTokenResponse.status);
-        navigation.navigate("Home");
+        navigation.navigate("Dashboard");
       }
     } else {
       console.error("Error obtaining request token");
     }
+  };
+
+  const handleDummyLogin = () => {
+    navigation.navigate("Dashboard");
   };
 
   return (
@@ -63,7 +67,7 @@ const LoginScreen = (navigation) => {
         secureTextEntry
         style={{ marginBottom: 10, padding: 10, borderWidth: 1, width: 200 }}
       />
-      <Button title="Login" onPress={handleLogin} />
+      <Button title="Login" onPress={handleDummyLogin} />
     </View>
   );
 };

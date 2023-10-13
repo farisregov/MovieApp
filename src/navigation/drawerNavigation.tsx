@@ -1,6 +1,5 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
-import React from "react";
+import React, { Fragment } from "react";
 import { Platform } from "react-native";
 
 import { DrawerContent } from "../components/DrawerContent";
@@ -28,7 +27,7 @@ const DrawerNavigation: React.FC = () => {
     overlayColor: "transparent",
   };
   return (
-    <NavigationContainer>
+    <Fragment>
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
         {/* Define your screens here */}
         {/* For example: */}
@@ -41,7 +40,7 @@ const DrawerNavigation: React.FC = () => {
         <Drawer.Screen name="Person" options={{ headerShown: false }} component={PersonScreen} />
         <Drawer.Screen name="Search" options={{ headerShown: false }} component={SearchScreen} />
       </Drawer.Navigator>
-    </NavigationContainer>
+    </Fragment>
   );
 };
 
