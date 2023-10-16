@@ -41,7 +41,7 @@ const DrawerContent = ({ navigation }) => {
         </View>
         {/* Menu Items */}
         <View style={{ borderRadius: 10, backgroundColor: "#292928" }}>
-          {menuItems.map((item) => (
+          {menuItems.map((item, index) => (
             <View style={{ borderColor: "#0a0a0a", borderBottomWidth: 1 }}>
               <TouchableOpacity
                 key={item.title}
