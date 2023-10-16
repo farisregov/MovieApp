@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, TextInput, View } from "react-native";
+import { Alert, Button, TextInput, View } from "react-native";
 
-import { apiKey } from "../constants/constant";
+import { createSessionId, getAccountId, getSessionToken, validateLogin } from "../auth/auth";
 
 const LoginScreen = ({ navigation }) => {
   // const navigation = useNavigation();
@@ -9,42 +9,20 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const requestTokenResponse = await fetch(`https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGQ5MmMyNjUyMjQwN2UyZWJkZDFkM2YzZWIyYWFjNCIsInN1YiI6IjY1MTJkNTE1MjZkYWMxMDEyZDVjZDk2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PL6TXXJWfTQ4Dy7LjoezIQ2cW3HdzmSbYQXObtbTOMY", // Replace with your TMDb API key
-      },
-    });
+    if (username !== "" && password !== "") {
+      const token = await getSessionToken();
+      const validatedToken = await validateLogin(token, username, password);
+      const validatedSessionId = await createSessionId(validatedToken);
+      const accountId = await getAccountId(validatedSessionId);
 
-    if (requestTokenResponse.ok) {
-      const requestTokenData = await requestTokenResponse.json();
-      console.log("requestTokenResponse: ", requestTokenResponse);
-
-      // Now you have the request token, validate it with the user's credentials
-      const validateTokenResponse = await fetch(`https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=${apiKey}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          request_token: requestTokenData.request_token,
-        }),
-      });
-
-      if (validateTokenResponse.ok) {
-        const validateTokenData = await validateTokenResponse.json();
-        console.log("Authentication successful:", validateTokenData);
-        navigation.navigate("Dashboard");
-      } else {
-        console.error("Authentication failed", validateTokenResponse.status);
-        navigation.navigate("Dashboard");
-      }
+      // save to context
+      // await handleUpdateSessionIdAccountId(validatedSessionId, accountId);
+      setUsername("");
+      setPassword("");
+      // setShowPassword(true);
+      navigation.navigate("Dashboard");
     } else {
-      console.error("Error obtaining request token");
+      Alert.alert("Invalid credentials");
     }
   };
 
@@ -67,7 +45,7 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry
         style={{ marginBottom: 10, padding: 10, borderWidth: 1, width: 200 }}
       />
-      <Button title="Login" onPress={handleDummyLogin} />
+      <Button title="Login" onPress={handleLogin} />
     </View>
   );
 };
