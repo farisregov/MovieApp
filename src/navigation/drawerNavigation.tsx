@@ -31,14 +31,14 @@ const DrawerNavigation: React.FC = () => {
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
         {/* Define your screens here */}
         {/* For example: */}
-        <Drawer.Screen name="Home" component={HomeScreen} options={{ ...defaultOptions }} />
-        <Drawer.Screen name="Profile" component={ProfileScreen} options={{ ...defaultOptions }} />
-        <Drawer.Screen name="Watchlist" component={WatchlistScreen} options={{ ...defaultOptions }} />
-        <Drawer.Screen name="Login" component={LoginScreen} options={{ ...defaultOptions }} />
+        <Drawer.Screen name="Home" component={HomeScreen} options={{ ...defaultOptions, drawerType: "front" }} />
+        <Drawer.Screen name="Profile" component={ProfileScreen} options={{ ...defaultOptions, drawerType: "front" }} />
+        <Drawer.Screen name="Watchlist" component={WatchlistScreen} options={{ ...defaultOptions, drawerType: "front" }} />
+        <Drawer.Screen name="Login" component={LoginScreen} options={{ ...defaultOptions, drawerType: "front" }} />
 
-        <Drawer.Screen name="Movie" options={{ headerShown: false }} component={MovieScreen} />
-        <Drawer.Screen name="Person" options={{ headerShown: false }} component={PersonScreen} />
-        <Drawer.Screen name="Search" options={{ headerShown: false }} component={SearchScreen} />
+        <Drawer.Screen name="Movie" options={{ ...defaultOptions, drawerType: "front" }} component={MovieScreen} />
+        <Drawer.Screen name="Person" options={{ ...defaultOptions, drawerType: "front" }} component={PersonScreen} />
+        <Drawer.Screen name="Search" options={{ ...defaultOptions, drawerType: "front" }} component={SearchScreen} />
       </Drawer.Navigator>
     </Fragment>
   );

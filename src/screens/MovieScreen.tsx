@@ -16,7 +16,7 @@ import { Movie, MovieDetails, MoviesResponse, ReviewResponse } from "../utils/ty
 const { width, height } = Dimensions.get("window");
 const MovieScreen = ({ navigation }) => {
   const { params: item } = (useRoute() as { params: MovieDetails }) || {};
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isFavorite, toggleFavorite] = useState(false);
   const [cast, setCast] = useState(null);
   const [review, setReview] = useState<ReviewResponse | null>(null);
@@ -26,6 +26,7 @@ const MovieScreen = ({ navigation }) => {
   // const navigation = useNavigation();
 
   const fetchMovieDetails = async () => {
+    setLoading(true);
     const options = {
       method: "GET",
       headers: {
@@ -40,8 +41,10 @@ const MovieScreen = ({ navigation }) => {
       console.log(item.id);
 
       setMovieDetails(data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -66,6 +69,7 @@ const MovieScreen = ({ navigation }) => {
         setSimilarMovies(data);
       } else {
         setSimilarMovies(null);
+        setLoading(false);
       }
       setLoading(false);
     } catch (error) {
@@ -127,6 +131,8 @@ const MovieScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
+    setLoading(true);
+
     fetchMovieDetails();
     fetchSimilarMovies();
     fetchCreditMovies();
@@ -134,8 +140,9 @@ const MovieScreen = ({ navigation }) => {
   }, [item]);
 
   if (!movieDetails) {
-    return null;
+    return <Loading />;
   }
+
   // console.log("MovieDetails", movieDetails);
 
   return (
@@ -145,43 +152,42 @@ const MovieScreen = ({ navigation }) => {
         flexGrow: 1,
         backgroundColor: "black",
       }}>
-      <View style={{}}>
-        <SafeAreaView
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            width: "100%",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 16,
-          }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{ borderRadius: 10, padding: 2, backgroundColor: "#eab308" }}>
-            <ChevronLeftIcon size={28} strokeWidth={2.5} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => toggleFavorite(!isFavorite)}>
-            <HeartIcon size={35} fill={isFavorite ? "#eab308" : "white"} color={isFavorite ? "#eab308" : "white"} />
-          </TouchableOpacity>
-        </SafeAreaView>
-        {loading ? (
-          <Loading />
-        ) : (
-          <View>
-            <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={{ width, height: height * 0.55 }} />
-            <LinearGradient
-              colors={["transparent", "rgba(23,23,23,0.8)", "rgba(23,23,23,1)"]}
-              style={{
-                width,
-                height: height * 0.4,
-                position: "absolute",
-                bottom: 0,
-              }}
-              start={{ x: 0.5, y: 0 }}
-              end={{ x: 0.5, y: 1 }}
-            />
-          </View>
-        )}
-      </View>
+      <SafeAreaView
+        style={{
+          position: "absolute",
+          zIndex: 10,
+          width: "100%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingHorizontal: 16,
+        }}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ borderRadius: 10, padding: 2, backgroundColor: "#eab308" }}>
+          <ChevronLeftIcon size={28} strokeWidth={2.5} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => toggleFavorite(!isFavorite)}>
+          <HeartIcon size={35} fill={isFavorite ? "#eab308" : "white"} color={isFavorite ? "#eab308" : "white"} />
+        </TouchableOpacity>
+      </SafeAreaView>
+      {loading ? (
+        <Loading />
+      ) : (
+        <View>
+          <Image source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }} style={{ width, height: height * 0.55 }} />
+          <LinearGradient
+            colors={["transparent", "rgba(23,23,23,0.8)", "rgba(23,23,23,1)"]}
+            style={{
+              width,
+              height: height * 0.4,
+              position: "absolute",
+              bottom: 0,
+            }}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+          />
+        </View>
+      )}
+
       <View style={{ marginTop: -(height * 0.13), marginVertical: 24 }}>
         <Text
           style={{

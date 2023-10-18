@@ -7,8 +7,8 @@ export const getSessionToken = async () => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGQ5MmMyNjUyMjQwN2UyZWJkZDFkM2YzZWIyYWFjNCIsInN1YiI6IjY1MTJkNTE1MjZkYWMxMDEyZDVjZDk2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PL6TXXJWfTQ4Dy7LjoezIQ2cW3HdzmSbYQXObtbTOMY",
+      //   Authorization:
+      //     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGQ5MmMyNjUyMjQwN2UyZWJkZDFkM2YzZWIyYWFjNCIsInN1YiI6IjY1MTJkNTE1MjZkYWMxMDEyZDVjZDk2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PL6TXXJWfTQ4Dy7LjoezIQ2cW3HdzmSbYQXObtbTOMY",
     },
   });
   const res2 = await res.json();
@@ -17,7 +17,7 @@ export const getSessionToken = async () => {
   console.log("requested token", req_token);
   return req_token;
 };
-//LAST SAMPAI SINI PROGRESSS MASALAH CREATE SESSION ID. REFER BACK TO GOOGLE.
+//LAST SAMPAI SINI PROGRESSS MASALAH CREATE SESSION ID. REFER BACK TO REFERENCE.
 export const validateLogin = async (token: string, username: string, password: string) => {
   try {
     const loginResponse = await fetch(`https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=${apiKey}`, {
@@ -25,7 +25,6 @@ export const validateLogin = async (token: string, username: string, password: s
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGQ5MmMyNjUyMjQwN2UyZWJkZDFkM2YzZWIyYWFjNCIsInN1YiI6IjY1MTJkNTE1MjZkYWMxMDEyZDVjZDk2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PL6TXXJWfTQ4Dy7LjoezIQ2cW3HdzmSbYQXObtbTOMY`, // Use the passed token for authorization
       },
       body: JSON.stringify({
         username,
@@ -37,7 +36,8 @@ export const validateLogin = async (token: string, username: string, password: s
     const loginSuccess = await loginResponse.json();
     console.log("Validated Login", loginSuccess);
 
-    if (loginSuccess.success === "true") {
+    if (loginSuccess.success === true) {
+      console.log("login Success");
       return loginSuccess.request_token; // Assuming responseData contains the request_token upon successful login
     } else {
       return {
@@ -58,12 +58,11 @@ export const validateLogin = async (token: string, username: string, password: s
 
 export const createSessionId = async (request_token: string) => {
   try {
-    const sessionId = await fetch(`https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}`, {
+    const sessionId = await fetch(`https://api.themoviedb.org/3/authentication/${request_token}?api_key=${apiKey}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGQ5MmMyNjUyMjQwN2UyZWJkZDFkM2YzZWIyYWFjNCIsInN1YiI6IjY1MTJkNTE1MjZkYWMxMDEyZDVjZDk2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PL6TXXJWfTQ4Dy7LjoezIQ2cW3HdzmSbYQXObtbTOMY`, // Use the passed request_token for authorization
       },
       body: JSON.stringify({
         request_token: request_token,
@@ -71,6 +70,8 @@ export const createSessionId = async (request_token: string) => {
     });
 
     const sessionData = await sessionId.json();
+    console.log("session req token", request_token);
+
     console.log("session created", sessionData);
 
     if (sessionData.success) {

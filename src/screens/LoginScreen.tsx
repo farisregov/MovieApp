@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Alert, Button, TextInput, View } from "react-native";
 
-import { createSessionId, getAccountId, getSessionToken, validateLogin } from "../auth/auth";
+import { createSessionId, getAccountId, getSessionToken, validateLogin } from "../auth/auth2";
+import { GlobalContext } from "../provider/GlobalProvider";
 
 const LoginScreen = ({ navigation }) => {
   // const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const { handleUpdateSessionIdAccountId } = useContext(GlobalContext);
 
   const handleLogin = async () => {
     if (username !== "" && password !== "") {
@@ -16,10 +19,10 @@ const LoginScreen = ({ navigation }) => {
       const accountId = await getAccountId(validatedSessionId);
 
       // save to context
-      // await handleUpdateSessionIdAccountId(validatedSessionId, accountId);
+      await handleUpdateSessionIdAccountId(validatedSessionId, accountId);
       setUsername("");
       setPassword("");
-      // setShowPassword(true);
+      setShowPassword(true);
       navigation.navigate("Dashboard");
     } else {
       Alert.alert("Invalid credentials");

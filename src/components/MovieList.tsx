@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { Fragment } from "react";
 import { Dimensions, Image, Text, View } from "react-native";
 import { ScrollView, TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 

@@ -21,18 +21,17 @@ const HomeScreen = ({ navigation }) => {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${apiKey}`,
       },
     };
 
     try {
-      const response = await fetch("https://api.themoviedb.org/3/trending/movie/day?language=en-US", options);
+      const response = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}&language=en-US`, options);
       const dataTrending: MoviesResponse = await response.json();
 
-      const responseUpcoming = await fetch(`https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1`, options);
+      const responseUpcoming = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US`, options);
       const dataUpcoming: MoviesResponse = await responseUpcoming.json();
 
-      const responseTopRated = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
+      const responseTopRated = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US`, options);
       const dataTopRated: MoviesResponse = await responseTopRated.json();
 
       if (dataTrending && dataUpcoming && dataTopRated) {
@@ -70,7 +69,7 @@ const HomeScreen = ({ navigation }) => {
     if (trending === null && upcoming === null && topRated === null) {
       handleSetData();
     }
-  }, [trending, upcoming, topRated]);
+  }, [trending, upcoming, topRated, loading]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
