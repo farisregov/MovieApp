@@ -7,14 +7,14 @@ export const getSessionToken = async () => {
     method: "GET",
     headers: {
       accept: "application/json",
-      //   Authorization:
-      //     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGQ5MmMyNjUyMjQwN2UyZWJkZDFkM2YzZWIyYWFjNCIsInN1YiI6IjY1MTJkNTE1MjZkYWMxMDEyZDVjZDk2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PL6TXXJWfTQ4Dy7LjoezIQ2cW3HdzmSbYQXObtbTOMY",
     },
   });
   const res2 = await res.json();
   const req_token = await res2.request_token;
 
   console.log("requested token", req_token);
+  console.log("res2", res2);
+
   return req_token;
 };
 //LAST SAMPAI SINI PROGRESSS MASALAH CREATE SESSION ID. REFER BACK TO REFERENCE.
@@ -40,25 +40,17 @@ export const validateLogin = async (token: string, username: string, password: s
       console.log("login Success");
       return loginSuccess.request_token; // Assuming responseData contains the request_token upon successful login
     } else {
-      return {
-        error: {
-          errorMessage: "Validation unsuccessful!",
-        },
-      };
+      throw new Error("Invalid credentials"); // Throw an error for unsuccessful login
     }
   } catch (error) {
     console.error("Error:", error);
-    return {
-      error: {
-        errorMessage: "An error occurred during validation.",
-      },
-    };
+    throw new Error("An error occurred during validation."); // Throw an error for any other errors
   }
 };
 
 export const createSessionId = async (request_token: string) => {
   try {
-    const sessionId = await fetch(`https://api.themoviedb.org/3/authentication/${request_token}?api_key=${apiKey}`, {
+    const sessionId = await fetch(`https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}`, {
       method: "POST",
       headers: {
         Accept: "application/json",

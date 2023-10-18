@@ -35,7 +35,7 @@ const MovieScreen = ({ navigation }) => {
       },
     };
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${item.id}?language=en-US`, options);
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${item.id}?api_key=${apiKey}&language=en-US`, options);
       const data: Movie = await response.json();
       // console.log("movie details", data);
       console.log(item.id);
@@ -54,7 +54,6 @@ const MovieScreen = ({ navigation }) => {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${apiKey}`,
       },
     };
     try {
@@ -83,7 +82,6 @@ const MovieScreen = ({ navigation }) => {
       method: "GET",
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${apiKey}`,
       },
     };
     try {
@@ -113,7 +111,7 @@ const MovieScreen = ({ navigation }) => {
       },
     };
     try {
-      await fetch(`https://api.themoviedb.org/3/movie/${item.id}/reviews?language=en-US&page=1`, options)
+      await fetch(`https://api.themoviedb.org/3/movie/${item.id}/reviews?api_key=${apiKey}&language=en-US&page=1`, options)
         .then((res) => res.json())
         .then((data) => {
           if (data.results) {

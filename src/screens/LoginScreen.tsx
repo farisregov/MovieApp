@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Alert, Button, TextInput, View } from "react-native";
 
-import { createSessionId, getAccountId, getSessionToken, validateLogin } from "../auth/auth2";
+import { createSessionId, getAccountId, getSessionToken, validateLogin } from "../auth/auth";
 import { GlobalContext } from "../provider/GlobalProvider";
 
 const LoginScreen = ({ navigation }) => {
